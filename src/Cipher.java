@@ -3,15 +3,14 @@ import java.util.*;
 public class Cipher {
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
-
-        System.out.print("Enter the text : ");
+        System.out.print("Welcome to Caesar Cipher!\nEnter the text : ");
         String plainText = scan.nextLine();
+        System.out.print("Enter the encryption key : ");
+        int key = scan.nextInt();
+        System.out.print("Please choose an operation to perform :\n1] Encrypt a text\n2] Decrypt a text\n$ ");
+        int option = scan.nextInt();
 
-        String text = encrypt(plainText,2);
-        System.out.println("Encrypted text : "+text);
-
-        System.out.println("Decrypted text : "+decrypt(text,2));
-
+        startCaesar(plainText,key,option);
         scan.close();
     }
 
@@ -62,12 +61,11 @@ public class Cipher {
             text.add(String.valueOf(encryptedText.charAt(i)));
         }
 
-        int cipherLetterIndex = 0;
         for (int i = 0; i < text.size(); i++) {
             if (isASpaceSymbol(text.get(i))) {
                 text.set(i,"\s");
             } else {
-                cipherLetterIndex = (indexOfLetter(text.get(i),alphabet) - encryptionKey) % alphabet.length;
+                int cipherLetterIndex = (indexOfLetter(text.get(i),alphabet) - encryptionKey) % alphabet.length;
                 if (cipherLetterIndex < 0) {
                     cipherLetterIndex += alphabet.length;
                 }
@@ -116,6 +114,19 @@ public class Cipher {
             return true;
         } else {
             return false;
+        }
+    }
+
+    private static void startCaesar(String text, int key, int option) {
+        switch (option) {
+            case 1 -> {
+                String encryptedText = encrypt(text, key);
+                System.out.println("Encrypted text : " + encryptedText);
+            }
+
+            case 2 -> {
+                System.out.println("Decrypted text : " + decrypt(text, key));
+            }
         }
     }
 }
